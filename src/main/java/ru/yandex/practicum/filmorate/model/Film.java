@@ -13,6 +13,7 @@ import java.time.LocalDate;
 @Builder
 public class Film {
     private int id;
+
     @NonNull @NotBlank
     private String name;
     @Size(max = 200)
