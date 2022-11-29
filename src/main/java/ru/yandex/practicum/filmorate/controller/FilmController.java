@@ -8,7 +8,9 @@ import ru.yandex.practicum.filmorate.model.Film;
 
 import javax.validation.Valid;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -18,30 +20,32 @@ public class FilmController {
     private Map<Integer, Film> films = new HashMap<>();
     private int id;
 
-    @PostMapping(value = "/film")
+
+
+    @GetMapping("/films")
+    public List<Film> findAll() {
+        log.info("Получен запрос GET /films. Текущее количество фильмов: ", films.size());
+        return new ArrayList<>(films.values());
+    }
+
+    @PostMapping(value = "/films")
     public Film create(@Valid @RequestBody Film film) throws ValidationException {
         if (film.getReleaseDate().isBefore(FIRST_FILM_RELEASE)) {
-            throw new ValidationException("Неверная дата релиза.");
+            throw new ValidationException("Неверная дата релиза");
         }
         film.setId(++id);
         films.put(film.getId(), film);
-        log.info("Получен запрос POST /film.");
+        log.info("Получен запрос POST /films. Фильм  добавлен.", film.getName());
         return film;
     }
-    @PutMapping(value = "/film")
-    public Film update(@RequestBody Film film){
-        if(films.containsKey(film.getId())){
-            films.replace(film.getId(), film);
-        } else {
-            film.setId(++id);
-            films.put(film.getId(), film);
+
+    @PutMapping(value = "/films")
+    public Film update(@RequestBody Film film) throws Exception {
+        if (!films.containsKey(film.getId())) {
+            throw new Exception("Фильма с таким id не существует.");
         }
-        log.debug("Получен запрос PUT /film.");
+        films.put(film.getId(), film);
+        log.info("Получен запрос PUT /films. Фильм  обновлен.", film.getName());
         return film;
-    }
-    @GetMapping("/films")
-    public Map<Integer, Film> findAll() {
-        log.info("Текущее количество фильмов: ", films.size());
-        return films;
     }
 }

@@ -27,10 +27,10 @@ class FilmorateApplicationTests {
 				.email("email@mail.ru")
 				.login("login")
 				.name("name")
-				.birthday(LocalDate.of(2022,11,29))
+				.birthday(LocalDate.of(2022,11,1))
 				.build();
 		userController.create(user);
-		assertEquals(29, filmController.findAll().size());
+		assertEquals(1, userController.findAll().size());
 	}
 	@Test
 	void checkFilmValidation() throws ValidationException {
@@ -38,11 +38,11 @@ class FilmorateApplicationTests {
 		film =  Film.builder()
 				.name("Film 1")
 				.description("Film 1 description")
-				.releaseDate(LocalDate.of(2022,11,29))
-				.duration(65)
+				.releaseDate(LocalDate.of(2022,11,1))
+				.duration(23)
 				.build();
 		filmController.create(film);
-		assertEquals(29, filmController.findAll().size());
+		assertEquals(1, filmController.findAll().size());
 
 	}
 	@Test
@@ -51,12 +51,12 @@ class FilmorateApplicationTests {
 		film =  Film.builder()
 				.name("name")
 				.description("Film 1 description")
-				.releaseDate(LocalDate.of(1997,7,10))
-				.duration(65)
+				.releaseDate(LocalDate.of(1408,7,10))
+				.duration(23)
 				.build();
 		ValidationException exc = assertThrows(
 				ValidationException.class, () -> filmController.create(film)
 		);
-		Assertions.assertEquals("Некорректная дата релиза", exc.getMessage());
+		Assertions.assertEquals("Неверная дата релиза", exc.getMessage());
 	}
 }
