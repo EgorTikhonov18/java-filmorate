@@ -40,7 +40,7 @@ public class UserController {
 
     @GetMapping("/users")
     public Map<Integer, User> findAll() {
-        log.debug("Текущее количество пользователей: ", users.size());
+        log.debug("Текущее количество пользователей: {}", users.size());
         return users;
     }
 }
