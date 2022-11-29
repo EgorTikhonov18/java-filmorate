@@ -1,13 +1,14 @@
 package ru.yandex.practicum.filmorate.model;
 
-import jakarta.validation.constraints.Positive;
-import jakarta.validation.constraints.Size;
+
 import lombok.Builder;
 import lombok.Data;
 import lombok.NonNull;
 import org.hibernate.validator.constraints.NotBlank;
 
 
+import javax.validation.constraints.Positive;
+import javax.validation.constraints.Size;
 import java.time.LocalDate;
 @Data
 @Builder
