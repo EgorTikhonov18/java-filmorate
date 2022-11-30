@@ -22,7 +22,7 @@ import java.util.Map;
 @NotEmpty
 @NotBlank
 public class UserController {
-    private Map<Integer, User> users = new HashMap<>();
+    private final Map<Integer, User> users = new HashMap<>();
     private int id = 1;
 
     @PostMapping(value = "/users")
