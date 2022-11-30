@@ -22,7 +22,7 @@ public class FilmController {
 
 
 
-    @GetMapping("/films")
+    @GetMapping(value = "/films")
     public List<Film> findAll() {
         log.info("Получен запрос GET /films. Текущее количество фильмов: {}", films.size());
         return new ArrayList<>(films.values());

@@ -32,6 +32,7 @@ class FilmorateApplicationTests {
 		userController.create(user);
 		assertEquals(1, userController.findAll().size());
 	}
+
 	@Test
 	void checkFilmValidation() throws ValidationException {
 		filmController = new FilmController();
