@@ -22,7 +22,9 @@ import java.time.LocalDate;
 public class Film {
     private int id;
 
-    @NonNull @NotBlank @NotEmpty
+    @NonNull
+    @NotBlank
+    @NotEmpty
     private String name;
     @Size(max = 200)
     @NonNull

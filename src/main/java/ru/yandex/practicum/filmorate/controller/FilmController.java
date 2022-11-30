@@ -35,7 +35,7 @@ public class FilmController {
         }
         film.setId(++id);
         films.put(film.getId(), film);
-        log.info("Получен запрос POST /films. Фильм  добавлен.", film.getName());
+        log.info("Получен запрос POST /films. Фильм {} добавлен.", film.getName());
         return film;
     }
 
@@ -45,7 +45,7 @@ public class FilmController {
             throw new Exception("Фильма с таким id не существует.");
         }
         films.put(film.getId(), film);
-        log.info("Получен запрос PUT /films. Фильм  обновлен.", film.getName());
+        log.info("Получен запрос PUT /films. Фильм {} обновлен.", film.getName());
         return film;
     }
 }
