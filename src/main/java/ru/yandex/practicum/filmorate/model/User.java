@@ -38,10 +38,14 @@ public class User {
     @JsonDeserialize(using = LocalDateDeserializer.class)
     @JsonSerialize(using = LocalDateSerializer.class)
     private LocalDate birthday;
-    private final Set<Integer> friends = new HashSet<>();
+    @JsonIgnore
+    Set<Integer> friends = new HashSet<>();
 
-    public void addFriend(Integer friendId) {
-        friends.add(friendId);
+    public User(String email, @NonNull String login, String name, LocalDate birthday) {
+        this.email = email;
+        this.login = login;
+        this.name = name;
+        this.birthday = birthday;
     }
 
 }
