@@ -24,7 +24,11 @@ import java.util.Set;
 @Builder
 @AllArgsConstructor
 public class Film {
+    @NotBlank
+    @NotEmpty
     private int id;
+    @NotBlank
+    @NotEmpty
     private final  Set<Integer> likes;
     @NonNull
     @NotBlank
@@ -47,12 +51,7 @@ public class Film {
         this.duration = duration;
         this.likes = new HashSet<>();
     }
-    public void addLike(Integer filmId) {
-        likes.add(filmId);
-    }
-    public void remoteLike(Integer userId) {
-        likes.remove(userId);
-    }
+
 
 
 }

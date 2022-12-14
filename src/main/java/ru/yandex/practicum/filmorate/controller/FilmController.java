@@ -5,9 +5,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import ru.yandex.practicum.filmorate.exception.FilmReleaseException;
+import ru.yandex.practicum.filmorate.exception.ValidationException;
 import ru.yandex.practicum.filmorate.model.Film;
 import ru.yandex.practicum.filmorate.service.FilmService;
-
+import ru.yandex.practicum.filmorate.exception.ValidationException;
 import javax.validation.Valid;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -41,9 +42,13 @@ public class FilmController {
     }
 
     @PutMapping(value = "/films")
-    public Film update(@RequestBody Film film) {
+    public Film update(@RequestBody Film film) throws Exception {
+        if (!films.containsKey(film.getId())) {
+            throw new Exception("Фильма с таким id не существует.");
+        }
+        films.put(film.getId(), film);
         log.info("Получен запрос PUT /films. Фильм {} обновлен.", film.getName());
-        return filmService.update(film);
+        return film;
     }
 
     @GetMapping("/films/{id}")
