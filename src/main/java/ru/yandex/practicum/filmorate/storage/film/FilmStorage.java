@@ -1,8 +1,6 @@
 package ru.yandex.practicum.filmorate.storage.film;
 
 
-import ru.yandex.practicum.filmorate.exception.FilmReleaseException;
-import ru.yandex.practicum.filmorate.exception.FilmNotFoundException;
 import ru.yandex.practicum.filmorate.model.Film;
 
 
