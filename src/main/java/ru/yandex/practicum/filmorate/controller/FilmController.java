@@ -2,10 +2,12 @@ package ru.yandex.practicum.filmorate.controller;
 
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import ru.yandex.practicum.filmorate.exception.ValidationException;
 import ru.yandex.practicum.filmorate.model.Film;
 import ru.yandex.practicum.filmorate.service.FilmService;
+import ru.yandex.practicum.filmorate.storage.film.FilmStorage;
 
 import javax.validation.Valid;
 import java.time.LocalDate;
@@ -16,6 +18,7 @@ import java.util.Map;
 
 @RestController
 @Slf4j
+@Validated
 public class FilmController {
     private static final LocalDate FIRST_FILM_RELEASE = LocalDate.of(1895, 12, 18);
     private final Map<Integer, Film> films = new HashMap<>();
@@ -23,6 +26,7 @@ public class FilmController {
 
     private final FilmService filmService;
     public FilmController(FilmService filmService) {
+
         this.filmService = filmService;
     }
 
