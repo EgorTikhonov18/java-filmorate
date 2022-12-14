@@ -38,7 +38,10 @@ public class User {
     @JsonDeserialize(using = LocalDateDeserializer.class)
     @JsonSerialize(using = LocalDateSerializer.class)
     private LocalDate birthday;
-    @JsonIgnore
-    Set<Integer> friends = new HashSet<>();
+    private final Set<Integer> friends = new HashSet<>();
+
+    public void addFriend(Integer friendId) {
+        friends.add(friendId);
+    }
 
 }

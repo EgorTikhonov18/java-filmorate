@@ -25,7 +25,7 @@ import java.util.Set;
 @AllArgsConstructor
 public class Film {
     private int id;
-
+    private final  Set<Integer> likes;
     @NonNull
     @NotBlank
     @NotEmpty
@@ -39,7 +39,20 @@ public class Film {
     private LocalDate releaseDate;
     @Positive
     private int duration;
-    @JsonIgnore
-    Set<Integer> likes = new HashSet<>();
+    @Builder
+    public Film( String name, String description, LocalDate releaseDate, int duration) {
+        this.name = name;
+        this.description = description;
+        this.releaseDate = releaseDate;
+        this.duration = duration;
+        this.likes = new HashSet<>();
+    }
+    public void addLike(Integer filmId) {
+        likes.add(filmId);
+    }
+    public void remoteLike(Integer userId) {
+        likes.remove(userId);
+    }
+
 
 }
