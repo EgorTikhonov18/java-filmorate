@@ -1,29 +1,23 @@
 package ru.yandex.practicum.filmorate.controller;
 
 
-import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
-import org.hibernate.validator.constraints.NotBlank;
+
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import ru.yandex.practicum.filmorate.exception.ValidationException;
 import ru.yandex.practicum.filmorate.model.User;
 import ru.yandex.practicum.filmorate.service.UserService;
 
-import javax.validation.Valid;
-import javax.validation.ValidationException;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
-@RestController
+import javax.validation.Valid;
+
+import java.util.List;
 @Slf4j
 @RequestMapping("/users")
 public class UserController {
+
     private final UserService service;
 
     @Autowired
@@ -82,3 +76,4 @@ public class UserController {
         }
     }
 }
+
