@@ -35,7 +35,7 @@ public class FilmController {
     }
 
     @GetMapping("/{filmId}")
-    public Film getFilmById(@PathVariable Integer filmId) {
+    public Film getFilmById( @Valid @PathVariable Integer filmId) {
         return service.getFilmById(filmId);
     }
 
@@ -52,7 +52,7 @@ public class FilmController {
     }
 
     @PutMapping("/{id}/like/{userId}")
-    public void addLike(@PathVariable Integer id, @PathVariable Integer userId) {
+    public void addLike (@Valid @PathVariable Integer id, @Valid @PathVariable Integer userId) {
         service.addLike(id, userId);
     }
 

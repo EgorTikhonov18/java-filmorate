@@ -22,14 +22,22 @@ import java.util.Set;
 @Data
 @NoArgsConstructor
 public class User {
+
     private Integer id;
-    private String name;
+
     @NotBlank
     @Email
+    @NotEmpty
     private String email;
+    @NotNull
     @NotBlank
+    @NotEmpty
     private String login;
+    private String name;
     @PastOrPresent
+    @NonNull
+    @JsonDeserialize(using = LocalDateDeserializer.class)
+    @JsonSerialize(using = LocalDateSerializer.class)
     private LocalDate birthday;
     private final Set<Integer> friends = new HashSet<>();
 
