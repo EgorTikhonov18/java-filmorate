@@ -11,8 +11,10 @@ import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotBlank;
 import org.hibernate.validator.constraints.NotEmpty;
 
+import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.PastOrPresent;
+import javax.validation.constraints.Pattern;
 import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
@@ -23,6 +25,10 @@ import java.util.Set;
 @AllArgsConstructor
 @Builder
 @Data
+@NonNull
+@Valid
+@javax.validation.constraints.NotEmpty
+@NotBlank
 public class User {
     private int id;
     @Email
@@ -31,6 +37,7 @@ public class User {
     @NotNull
     @NotBlank
     @NotEmpty
+    @Pattern(regexp = "^\\S*$")
     private String login;
     private String name;
     @PastOrPresent

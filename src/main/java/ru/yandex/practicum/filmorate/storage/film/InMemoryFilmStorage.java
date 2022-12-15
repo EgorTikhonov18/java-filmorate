@@ -21,17 +21,18 @@ public class InMemoryFilmStorage implements FilmStorage {
     private Map<Integer, Film> films = new HashMap<>();
     private int id;
 
-
+    @Override
     public List<Film> findAll() {
         return new ArrayList<>(films.values());
     }
-
+    @Override
     public Film getFilm(int id) {
         if (!films.containsKey(id)) {
             throw new FilmNotFoundException("Film with this ID doesn't exist.");
         }
         return films.get(id);
     }
+    @Override
     public Film create(Film film) throws FilmReleaseException {
         if (film.getReleaseDate().isBefore(FIRST_FILM_RELEASE)) {
             throw new FilmReleaseException("Incorrect release date.");
@@ -40,7 +41,7 @@ public class InMemoryFilmStorage implements FilmStorage {
         films.put(film.getId(), film);
         return film;
     }
-
+    @Override
     public Film update(Film film) throws FilmNotFoundException {
         if (!films.containsKey(film.getId())) {
             throw new FilmNotFoundException("Film with this ID doesn't exist.");
@@ -48,7 +49,7 @@ public class InMemoryFilmStorage implements FilmStorage {
         films.put(film.getId(), film);
         return film;
     }
-
+    @Override
     public Film putLike(int id, int userId) {
         if (!films.containsKey(id)) {
             throw new FilmNotFoundException("Film with this ID doesn't exist.");
@@ -56,7 +57,7 @@ public class InMemoryFilmStorage implements FilmStorage {
         films.get(id).getLikes().add(userId);
         return films.get(id);
     }
-
+    @Override
     public Film deleteLike(int id, int userId) {
         if (!films.containsKey(id)) {
             throw new FilmNotFoundException("Film with this ID doesn't exist.");
@@ -66,7 +67,7 @@ public class InMemoryFilmStorage implements FilmStorage {
     }
 
 
-
+    @Override
     public List<Film> findPopularFilms(int count) {
         return films.values()
                 .stream()

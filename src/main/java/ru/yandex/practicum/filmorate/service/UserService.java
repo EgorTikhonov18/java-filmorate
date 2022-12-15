@@ -1,18 +1,26 @@
 package ru.yandex.practicum.filmorate.service;
 
 
+import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
+import org.hibernate.validator.constraints.NotBlank;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.yandex.practicum.filmorate.exception.UserNotFoundException;
 import ru.yandex.practicum.filmorate.model.User;
 import ru.yandex.practicum.filmorate.storage.user.UserStorage;
 
+import javax.validation.Valid;
+import javax.validation.constraints.NotEmpty;
 import java.util.List;
 
 
 @Service
 @Slf4j
+@NonNull
+@Valid
+@NotEmpty
+@NotBlank
 public class UserService {
 
     private final UserStorage userStorage;
@@ -27,6 +35,7 @@ public class UserService {
     }
 
     public User create(User user) {
+
         return userStorage.create(user);
     }
 

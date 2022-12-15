@@ -21,6 +21,7 @@ import java.util.Set;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class Film {
     private int id;
     @NonNull
