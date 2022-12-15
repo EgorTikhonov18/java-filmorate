@@ -1,42 +1,40 @@
 package ru.yandex.practicum.filmorate.exception;
 
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import ru.yandex.practicum.filmorate.model.ErrorResponse;
 
-import javax.validation.ValidationException;
+import javax.validation.ConstraintViolationException;
 
 @RestControllerAdvice
+@Slf4j
 public class ExceptionsHandler {
     @ExceptionHandler
-    @ResponseStatus(HttpStatus.NOT_FOUND)
-    public ErrorResponse handle(final FilmNotFoundException  e) {
-        return new ErrorResponse(
-                 e.getMessage()
-        );
+    public ResponseEntity<String> handlerBadValidation(final ValidationException e) {
+        log.error("Возникла ошибка валидации. Ошибка:" + e.getMessage());
+        return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+    }
+
+
+    @ExceptionHandler
+    public ResponseEntity<String> handlerNotFound(final FilmNotFoundException e) {
+        log.error("Возникла ошибка не найденного объекта. Ошибка:" + e.getMessage());
+        return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ErrorResponse jsonHandle(final FilmReleaseException  e) {
-        return new ErrorResponse( e.getMessage()
-        );
+    public ResponseEntity<String> handlerConstraintViolation(final ConstraintViolationException ex) {
+        log.error("Возникла ошибка валидации. Ошибка:" + ex.getMessage());
+        return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ErrorResponse jsonHandle(final ValidationException e) {
-        return new ErrorResponse(e.getMessage()
-        );
-    }
-
-    @ExceptionHandler
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ErrorResponse parsHandle(final NumberFormatException e) {
-        return new ErrorResponse(
-                 e.getMessage()
-        );
+    public ResponseEntity<String> handlerThrowable(final Throwable ex) {
+        log.error("Возникло исключение. Ошибка: " + ex.getMessage());
+        return new ResponseEntity<>(ex.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
     }
 }

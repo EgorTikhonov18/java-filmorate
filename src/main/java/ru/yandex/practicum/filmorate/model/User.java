@@ -47,5 +47,7 @@ public class User {
     private LocalDate birthday;
     @JsonIgnore
     Set<Integer> friends;
-
+    public void addFriend(Integer friendId) {
+        friends.add(friendId);
+    }
 }

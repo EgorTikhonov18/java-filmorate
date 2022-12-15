@@ -1,79 +1,52 @@
 package ru.yandex.practicum.filmorate.storage.film;
 
 
-import org.hibernate.validator.constraints.NotBlank;
 import org.springframework.stereotype.Component;
-import ru.yandex.practicum.filmorate.exception.FilmReleaseException;
-import ru.yandex.practicum.filmorate.exception.FilmNotFoundException;
-import ru.yandex.practicum.filmorate.exception.UserNotFoundException;
 import ru.yandex.practicum.filmorate.model.Film;
 
-import javax.validation.Valid;
-import javax.validation.constraints.NotEmpty;
 import java.util.*;
 import java.util.stream.Collectors;
-import java.time.LocalDate;
 
 @Component
 
 public class InMemoryFilmStorage implements FilmStorage {
-    private static final LocalDate FIRST_FILM_RELEASE = LocalDate.of(1895, 12, 18);
-    private Map<Integer, Film> films = new HashMap<>();
-    private int id;
+
+    private final HashMap<Integer, Film> films = new HashMap<>();
+
 
     @Override
-    public List<Film> findAll() {
+    public List<Film> getAllFilms() {
         return new ArrayList<>(films.values());
     }
+
     @Override
-    public Film getFilm(int id) {
-        if (!films.containsKey(id)) {
-            throw new FilmNotFoundException("Film with this ID doesn't exist.");
-        }
-        return films.get(id);
+    public Optional<Film> findById(Integer id) {
+        return Optional.ofNullable(films.get(id));
     }
+
     @Override
-    public Film create(Film film) throws FilmReleaseException {
-        if (film.getReleaseDate().isBefore(FIRST_FILM_RELEASE)) {
-            throw new FilmReleaseException("Incorrect release date.");
-        }
-        film.setId(++id);
+    public void reset() {
+        films.clear();
+    }
+
+    @Override
+    public Film addFilm(Film film) {
         films.put(film.getId(), film);
         return film;
     }
+
     @Override
-    public Film update(Film film) throws FilmNotFoundException {
-        if (!films.containsKey(film.getId())) {
-            throw new FilmNotFoundException("Film with this ID doesn't exist.");
+    public Film updateFilm(Film film) {
+        if (!films.containsValue(film)) {
+            films.replace(film.getId(), film);
         }
-        films.put(film.getId(), film);
         return film;
     }
-    @Override
-    public Film putLike(int id, int userId) {
-        if (!films.containsKey(id)) {
-            throw new FilmNotFoundException("Film with this ID doesn't exist.");
-        }
-        films.get(id).getLikes().add(userId);
-        return films.get(id);
-    }
-    @Override
-    public Film deleteLike(int id, int userId) {
-        if (!films.containsKey(id)) {
-            throw new FilmNotFoundException("Film with this ID doesn't exist.");
-        }
-        films.get(id).getLikes().remove(userId);
-        return films.get(id);
-    }
-
 
     @Override
-    public List<Film> findPopularFilms(int count) {
-        return films.values()
-                .stream()
-                .sorted(Comparator.comparingInt(f0 -> f0.getLikes().size()))
-                .limit(count)
-                .collect(Collectors.toList());
+    public List<Film> getMostPopular(Integer count) {
+        return films.values().stream().sorted(Comparator.comparingInt(f -> -f.getLikes().size()))
+                .limit(count).collect(Collectors.toList());
     }
 
 }

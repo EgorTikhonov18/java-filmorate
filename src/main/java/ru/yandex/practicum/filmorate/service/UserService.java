@@ -1,82 +1,94 @@
 package ru.yandex.practicum.filmorate.service;
 
 
-import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
-import org.hibernate.validator.constraints.NotBlank;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import ru.yandex.practicum.filmorate.exception.UserNotFoundException;
+import ru.yandex.practicum.filmorate.exception.FilmNotFoundException;
 import ru.yandex.practicum.filmorate.model.User;
 import ru.yandex.practicum.filmorate.storage.user.UserStorage;
 
-import javax.validation.Valid;
-import javax.validation.constraints.NotEmpty;
 import java.util.List;
+import java.util.stream.Collectors;
 
 
 @Service
 @Slf4j
-@NonNull
-@Valid
-@NotEmpty
-@NotBlank
-public class UserService {
 
-    private final UserStorage userStorage;
+public class UserService {
+    private final UserStorage storage;
+    private Integer id = 0;
 
     @Autowired
-    public UserService(UserStorage userStorage) {
-        this.userStorage = userStorage;
+    public UserService(UserStorage storage) {
+        this.storage = storage;
     }
 
     public List<User> getAllUsers() {
-        return userStorage.findAll();
+        log.debug("Получен запрос GET /users");
+        return storage.getAllUsers();
     }
 
-    public User create(User user) {
 
-        return userStorage.create(user);
+    public User getUserById(Integer id) {
+        return storage.getUserById(id).orElseThrow(() ->
+                new FilmNotFoundException("Пользователь с id " + id + " не найден."));
     }
 
-    public User update(User user) {
-        if (userStorage.get(user.getId()) == null) {
-            throw new UserNotFoundException("User with this ID doesn't exist.");
-        }
-        return userStorage.update(user);
+
+    public User createUser(User user) {
+        createUserId(user);
+        log.debug("Получен запрос POST. Передан обьект {}", user);
+        return storage.addUser(user);
     }
 
-    public User get(int userId) {
-        final User user = userStorage.get(userId);
-        if (user == null) {
-            throw new UserNotFoundException("Пользователь с id " + userId + " не найденю");
-        }
-        return user;
+
+    public User updateUser(User user) {
+        getUserById(user.getId());
+        log.debug("Пользователь {} обновлен", user);
+        return storage.updateUser(user);
+
     }
 
-    public void addFriend(int userId, int friendId) {
-        User user = userStorage.get(userId);
-        if (friendId <= 0 || userStorage.get(friendId) == null) {
-            throw new UserNotFoundException("Friend with this ID doesn't exist.");
-        }
-        User friend = userStorage.get(friendId);
-        userStorage.addFriend(user, friend);
+
+    public void addFriend(Integer id, Integer friendId) {
+        getUserById(friendId).addFriend(id);
+        getUserById(id).addFriend(friendId);
+        log.debug("Пользователь {} добавлен в друзья к {}", friendId, id);
     }
 
-    public void deleteFriend(int userId, int friendId) {
-        User user = userStorage.get(userId);
-        User friend = userStorage.get(friendId);
-        userStorage.deleteFriend(user, friend);
+
+    public void removeFriend(Integer id, Integer userId) {
+        getUserById(id).getFriends().remove(userId);
+        getUserById(userId).getFriends().remove(id);
     }
 
-    public List<User> getAllFriends(int userId) {
-        User user = userStorage.get(userId);
-        return userStorage.getAllFriends(user);
+
+    public List<User> getFriends(Integer id) {
+        getUserById(id);
+        return storage.getUserFriends(id);
+
     }
 
-    public List<User> getCommonFriends(int userId, int otherId) {
-        User user = userStorage.get(userId);
-        User other = userStorage.get(otherId);
-        return userStorage.getCommonFriends(user, other);
+
+    public List<User> getCrossFriends(Integer id, Integer userId) {
+        User firstUser = getUserById(id);
+        User secondUser = getUserById(userId);
+        log.debug("Получен список общих друзей {} с {}", id, userId);
+        return firstUser.getFriends().stream().filter(secondUser.getFriends()::contains).map(this::getUserById)
+                .collect(Collectors.toList());
     }
+
+
+    public void reset() {
+        log.debug("Хранилище пользователей очищено");
+        storage.reset();
+    }
+
+    private void createUserId(User user) {
+        id++;
+        user.setId(id);
+    }
+
+
 }

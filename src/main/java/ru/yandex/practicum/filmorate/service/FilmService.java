@@ -1,19 +1,16 @@
 package ru.yandex.practicum.filmorate.service;
 
 
-import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
-import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.yandex.practicum.filmorate.exception.FilmNotFoundException;
-import ru.yandex.practicum.filmorate.exception.FilmReleaseException;
+import ru.yandex.practicum.filmorate.exception.ValidationException;
 
 import ru.yandex.practicum.filmorate.model.Film;
 import ru.yandex.practicum.filmorate.model.User;
 import ru.yandex.practicum.filmorate.storage.film.FilmStorage;
 
-import javax.validation.Valid;
 import java.util.List;
 
 
@@ -21,35 +18,62 @@ import java.util.List;
 @Service
 public class FilmService {
 
-    private final FilmStorage filmStorage;
+    private final FilmStorage storage;
+    private final UserService userService;
+    private Integer id = 0;
 
-    public FilmService(FilmStorage filmStorage) {
-        this.filmStorage = filmStorage;
-    }
+    @Autowired
+    public FilmService(FilmStorage storage, UserService userService) {
+        this.storage = storage;
+        this.userService = userService;
 
-    public List<Film> findAll() {
-        return filmStorage.findAll();
-    }
-    public Film getFilm(int id) {
-        return filmStorage.getFilm(id);
-    }
-    public Film create(Film film) throws FilmReleaseException {
-        return filmStorage.create(film);
     }
 
-    public Film update(Film film) throws FilmNotFoundException {
-        return filmStorage.update(film);
+    public List<Film> getAllFilms() {
+        log.debug("Получен запрос GET /films.");
+        return storage.getAllFilms();
     }
 
-    public Film putLike(int id, int userId) {
-        return filmStorage.putLike(id, userId);
+    public Film getFilmById(Integer filmId) {
+        return storage.findById(filmId).orElseThrow(() ->
+                new FilmNotFoundException("Фильм с id " + filmId + " не найден.") );
     }
 
-    public Film deleteLike(int id, int userId) {
-        return filmStorage.deleteLike(id, userId);
+    public Film addFilm(Film film) {
+
+        createFilmId(film);
+        log.debug("Получен запрос POST. Передан обьект {}", film);
+        return storage.addFilm(film);
     }
 
-    public List<Film> findPopularFilms(int count) {
-        return filmStorage.findPopularFilms(count);
+    public Film updateFilm(Film film) {
+        getFilmById(film.getId());
+        return storage.updateFilm(film);
+
     }
+
+    public void addLike(Integer filmId, Integer userId) {
+        Film film = getFilmById(filmId);
+        User user = userService.getUserById(userId);
+        film.addLike(userId);
+        log.info("Пользователь: {} поставил лайк фильму: {}", user, film);
+    }
+
+    public void remoteLike(Integer filmId, Integer userId) {
+        Film film = getFilmById(filmId);
+        User user = userService.getUserById(userId);
+        film.remoteLike(userId);
+        log.info("Пользователь: {} убрал лайк с фильма: {}", user, film);
+    }
+
+    public List<Film> getMostPopular(Integer count) {
+        log.debug("Отправлен список популярных фильмов с параметром {}", count);
+        return storage.getMostPopular(count);
+    }
+
+    private void createFilmId(Film film) {
+        id++;
+        film.setId(id);
+    }
+
 }

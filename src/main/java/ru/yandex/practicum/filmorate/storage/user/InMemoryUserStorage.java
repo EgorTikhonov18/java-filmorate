@@ -1,85 +1,54 @@
 package ru.yandex.practicum.filmorate.storage.user;
 
 
-import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
-import org.hibernate.validator.constraints.NotBlank;
 import org.springframework.stereotype.Component;
-import ru.yandex.practicum.filmorate.exception.UserNotFoundException;
 import ru.yandex.practicum.filmorate.model.User;
 
-import javax.validation.Valid;
-import javax.validation.constraints.NotEmpty;
 import java.util.*;
+import java.util.stream.Collectors;
+
 @Component
 @Slf4j
-@NonNull
-@Valid
-@NotEmpty
-@NotBlank
+
 
 public class InMemoryUserStorage implements UserStorage {
-    private Map<Integer, User> users = new HashMap<>();
-    private int id;
+    private final HashMap<Integer, User> users = new HashMap<>();
+
 
     @Override
-    public List<User> findAll() {
+    public void reset() {
+        users.clear();
+    }
+
+    @Override
+    public List<User> getAllUsers() {
         return new ArrayList<>(users.values());
     }
 
     @Override
-    public User create(@Valid @NotBlank User user) {
-        if (user.getName() == null || user.getName().isBlank()) {
-            user.setName(user.getLogin());
-        }
-        user.setId(++id);
+    public User addUser(User user) {
         users.put(user.getId(), user);
         return user;
     }
 
     @Override
-    public User update(User user) {
-        if (!users.containsKey(user.getId())) {
-            throw new UserNotFoundException("User with this ID doesn't exist.");
+    public User updateUser(User user) {
+        if (!users.containsValue(user)) {
+            users.replace(user.getId(), user);
         }
-        users.put(user.getId(), user);
         return user;
     }
-    @Override
-    public User get(int userId) {
-        return users.get(userId);
-    }
-    @Override
-    public void addFriend(User user, User friend) {
-        if (!users.containsKey(user.getId())) {
-            throw new UserNotFoundException("User with this ID doesn't exist.");
-        }
-        user.getFriends().add(friend.getId());
 
-        friend.getFriends().add(user.getId());
+    @Override
+    public Optional<User> getUserById(Integer id) {
+        return Optional.ofNullable(users.get(id));
+    }
 
-    }
     @Override
-    public void deleteFriend(User user, User friend) {
-        user.getFriends().remove(friend.getId());
-        friend.getFriends().remove(user.getId());
+    public List<User> getUserFriends(Integer id) {
+        return users.get(id).getFriends().stream()
+                .map(users::get).collect(Collectors.toList());
     }
-    @Override
-    public List<User> getAllFriends(User user) {
-        List<User> friends = new ArrayList<>();
-        for (int id : user.getFriends()) {
-            friends.add(users.get(id));
-        }
-        return friends;
-    }
-    @Override
-    public List<User> getCommonFriends(User user, User other) {
-        List<User> commonFriends = new ArrayList<>();
-        for (int id : user.getFriends()) {
-            if (other.getFriends().contains(id)) {
-                commonFriends.add(users.get(id));
-            }
-        }
-        return commonFriends;
-    }
+
 }

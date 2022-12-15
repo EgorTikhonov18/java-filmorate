@@ -1,25 +1,21 @@
 package ru.yandex.practicum.filmorate.storage.film;
 
-import ru.yandex.practicum.filmorate.exception.FilmReleaseException;
-import ru.yandex.practicum.filmorate.exception.FilmNotFoundException;
 import ru.yandex.practicum.filmorate.model.Film;
 
 
-import javax.validation.Valid;
 import java.util.List;
+import java.util.Optional;
 
 public interface FilmStorage {
-    List<Film> findAll();
+ void reset();
 
-    Film create(@Valid Film film) throws FilmReleaseException;
+ List<Film> getAllFilms();
 
-    Film update(@Valid Film film) throws FilmNotFoundException;
+ Optional<Film> findById(Integer id);
 
-    Film putLike(@Valid int id, int userId);
+ Film addFilm(Film film);
 
-    Film deleteLike(@Valid int id, int userId);
+ Film updateFilm(Film film);
 
-    Film getFilm(int id);
-
-    List<Film> findPopularFilms(@Valid int count);
+ List<Film> getMostPopular(Integer count);
 }
