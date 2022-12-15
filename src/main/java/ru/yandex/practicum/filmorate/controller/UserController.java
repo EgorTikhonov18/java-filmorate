@@ -24,7 +24,6 @@ import java.util.Map;
 @Slf4j
 @RequestMapping("/users")
 public class UserController {
-
     private final UserService service;
 
     @Autowired

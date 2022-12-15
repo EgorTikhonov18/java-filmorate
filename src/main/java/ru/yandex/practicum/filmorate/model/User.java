@@ -19,34 +19,20 @@ import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
 
-@Setter
-@Getter
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
 @Data
-@NonNull
-@Valid
-@javax.validation.constraints.NotEmpty
-@NotBlank
+@NoArgsConstructor
 public class User {
-    private int id;
-    @Email
-    @NotEmpty
-    private String email;
-    @NotNull
-    @NotBlank
-    @NotEmpty
-    @Pattern(regexp = "^\\S*$")
-    private String login;
+    private Integer id;
     private String name;
+    @NotBlank
+    @Email
+    private String email;
+    @NotBlank
+    private String login;
     @PastOrPresent
-    @NonNull
-    @JsonDeserialize(using = LocalDateDeserializer.class)
-    @JsonSerialize(using = LocalDateSerializer.class)
     private LocalDate birthday;
-    @JsonIgnore
-    Set<Integer> friends;
+    private final Set<Integer> friends = new HashSet<>();
+
     public void addFriend(Integer friendId) {
         friends.add(friendId);
     }
