@@ -1,4 +1,4 @@
-package ru.yandex.practicum.filmorate.service;
+package ru.yandex.practicum.filmorate.service.user;
 
 
 import lombok.extern.slf4j.Slf4j;
@@ -15,12 +15,12 @@ import java.util.stream.Collectors;
 @Service
 @Slf4j
 
-public class UserService {
+public class InMemoryUserService implements UserService {
     private final UserStorage storage;
     private Integer id = 0;
 
     @Autowired
-    public UserService(UserStorage storage) {
+    public InMemoryUserService(UserStorage storage) {
         this.storage = storage;
     }
 
@@ -85,7 +85,7 @@ public class UserService {
         storage.reset();
     }
 
-    private void createUserId(User user) {
+    public void createUserId(User user) {
         id++;
         user.setId(id);
     }

@@ -1,14 +1,14 @@
-package ru.yandex.practicum.filmorate.service;
+package ru.yandex.practicum.filmorate.service.film;
 
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.yandex.practicum.filmorate.exception.FilmNotFoundException;
-import ru.yandex.practicum.filmorate.exception.ValidationException;
 
 import ru.yandex.practicum.filmorate.model.Film;
 import ru.yandex.practicum.filmorate.model.User;
+import ru.yandex.practicum.filmorate.service.user.InMemoryUserService;
 import ru.yandex.practicum.filmorate.storage.film.FilmStorage;
 
 import java.util.List;
@@ -16,14 +16,14 @@ import java.util.List;
 
 @Slf4j
 @Service
-public class FilmService {
+public class InMemoryFilmService implements FilmService {
 
     private final FilmStorage storage;
-    private final UserService userService;
+    private final InMemoryUserService userService;
     private Integer id = 0;
 
     @Autowired
-    public FilmService(FilmStorage storage, UserService userService) {
+    public InMemoryFilmService(FilmStorage storage, InMemoryUserService userService) {
         this.storage = storage;
         this.userService = userService;
 
@@ -71,7 +71,7 @@ public class FilmService {
         return storage.getMostPopular(count);
     }
 
-    private void createFilmId(Film film) {
+    public void createFilmId(Film film) {
         id++;
         film.setId(id);
     }
