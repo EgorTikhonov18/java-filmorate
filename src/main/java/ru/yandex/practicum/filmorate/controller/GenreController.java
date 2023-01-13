@@ -14,6 +14,7 @@ import ru.yandex.practicum.filmorate.model.Genre;
 import ru.yandex.practicum.filmorate.service.genre.GenreService;
 
 
+import javax.validation.constraints.NotEmpty;
 import java.util.List;
 import java.util.Optional;
 
@@ -27,7 +28,7 @@ public class GenreController {
 
 
     @GetMapping("{id}")
-    public Optional<Genre> getGenre(@PathVariable Integer id) {
+    public Optional<Genre> getGenre(@PathVariable   Integer id) {
         if (id < 1) {
             throw new FilmNotFoundException("Жанр с id " + id + " не найден.");
         }
