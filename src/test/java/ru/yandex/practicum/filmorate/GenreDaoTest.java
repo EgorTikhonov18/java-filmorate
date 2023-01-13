@@ -16,6 +16,7 @@ import java.util.List;
 @RequiredArgsConstructor(onConstructor_ = @Autowired)
 public class GenreDaoTest {
     private final GenreDaoImpl storage;
+
     @Test
     public void getAllGenreTest(){
         List<Genre> genres = storage.getAllGenre();
