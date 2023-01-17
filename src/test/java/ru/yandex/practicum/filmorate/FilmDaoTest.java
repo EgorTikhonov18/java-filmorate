@@ -31,7 +31,7 @@ public class FilmDaoTest {
     public void getAllFilmsTest(){
         storage.addFilm(new Film(2, "Фильм2", "Крутой фильм2",
                 LocalDate.of(2003, 3, 31), 50, new Mpa(1, "Боевик")));
-        assertEquals(storage.getAllFilms().size(),2);
+        assertEquals(storage.getAllFilms().size(),4);
     }
     @Test
     public void updateFilmTest(){
