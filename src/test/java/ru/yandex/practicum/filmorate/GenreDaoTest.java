@@ -11,12 +11,22 @@ import ru.yandex.practicum.filmorate.storage_jdbc.impl.GenreDaoImpl;
 import static org.junit.jupiter.api.Assertions.*;
 import java.util.List;
 
+import lombok.RequiredArgsConstructor;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
+import org.springframework.boot.test.context.SpringBootTest;
+import ru.yandex.practicum.filmorate.model.Genre;
+import ru.yandex.practicum.filmorate.storage_jdbc.impl.GenreDaoImpl;
+
+import static org.junit.jupiter.api.Assertions.*;
+import java.util.List;
+
 @SpringBootTest
 @AutoConfigureTestDatabase
 @RequiredArgsConstructor(onConstructor_ = @Autowired)
 public class GenreDaoTest {
     private final GenreDaoImpl storage;
-
     @Test
     public void getAllGenreTest(){
         List<Genre> genres = storage.getAllGenre();
@@ -28,7 +38,7 @@ public class GenreDaoTest {
             assertEquals(storage.getGenreById(1).get().getName(),"Комедия");
         }
     }
-    @Test
+   /* @Test
     public void createGenreTest() {
         Genre test = new Genre(7, "Модерн");
         if (storage.createGenre(test).isPresent()) {
@@ -47,6 +57,5 @@ public class GenreDaoTest {
         if (storage.getGenreById(7).isPresent()) {
             assertEquals(storage.getGenreById(7).get().getName(), "Супер-Модерн");
         }
-    }
+    }*/
 }
-

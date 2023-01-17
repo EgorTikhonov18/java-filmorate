@@ -48,7 +48,7 @@ public class GenreDaoImpl implements GenreDao {
 
     @Override
     public Optional<Genre> createGenre(Genre genre) {
-        final String sql = "INSERT INTO GENRES (NAME) VALUES (?)";
+        final String sql = "INSERT INTO  GENRES (NAME) VALUES  (?)  "; //INSERT INTO
         if (jdbcTemplate.update(sql, genre.getName()) != 1) {
             return Optional.empty();
         } else {
