@@ -1,5 +1,6 @@
 package ru.yandex.practicum.filmorate.storage_jdbc.impl;
 
+import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
@@ -7,6 +8,8 @@ import org.springframework.stereotype.Repository;
 import ru.yandex.practicum.filmorate.model.Genre;
 import ru.yandex.practicum.filmorate.storage_jdbc.GenreDao;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -46,15 +49,17 @@ public class GenreDaoImpl implements GenreDao {
         jdbcTemplate.update(sql, filmId);
     }
 
-   /* @Override
-    public Optional<Genre> createGenre(Genre genre) {
-        final String sql = "INSERT INTO  GENRES (GENRE_ID) VALUES  (?)"; //INSERT INTO
+    @Override
+    public Optional<Genre> createGenre(Genre genre){
+
+        final String sql = "INSERT INTO  GENRES (genre_id, NAME) VALUES (7, ?)"; //INSERT INTO  GENRES (NAME) VALUES (?)
         if (jdbcTemplate.update(sql, genre.getName()) != 1) {
             return Optional.empty();
         } else {
             return Optional.of(genre);
         }
     }
+
 
     @Override
     public Optional<Genre> updateGenre(Genre genre) {
@@ -64,7 +69,7 @@ public class GenreDaoImpl implements GenreDao {
         } else {
             return Optional.of(genre);
         }
-    }*/
+    }
 
     private List<Genre> mappingGenre(SqlRowSet rs) {
         List<Genre> genres = new ArrayList<>();

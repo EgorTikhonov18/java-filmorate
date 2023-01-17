@@ -11,8 +11,8 @@ public interface GenreService {
     Optional<Genre> findGenreById(Integer filmId);
 
     void deleteAllGenreByFilmId(Integer filmId);
-/*
+
     Optional<Genre> createGenre(Genre genre);
 
-    Optional<Genre> updateGenre(Genre genre);*/
+    Optional<Genre> updateGenre(Genre genre);
 }

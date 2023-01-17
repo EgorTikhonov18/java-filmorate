@@ -10,7 +10,7 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
-public class GenreServiceImpl implements GenreService{
+public class GenreServiceImpl implements GenreService {
     private final GenreDao genreDao;
 
     @Override
@@ -28,14 +28,14 @@ public class GenreServiceImpl implements GenreService{
         genreDao.deleteAllGenreByFilmId(filmId);
     }
 
-  /*  @Override
+    @Override
     public Optional<Genre> createGenre(Genre genre) {
         return genreDao.createGenre(genre);
     }
 
     @Override
     public Optional<Genre> updateGenre(Genre genre) {
-        return genreDao.updateGenre(genre);*/
+        return genreDao.updateGenre(genre);
     }
-
+}
 

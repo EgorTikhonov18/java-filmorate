@@ -37,8 +37,8 @@ public class GenreDaoTest {
         if(storage.getGenreById(1).isPresent()){
             assertEquals(storage.getGenreById(1).get().getName(),"Комедия");
         }
-    }
-   /* @Test
+    }/*
+    @Test
     public void createGenreTest() {
         Genre test = new Genre(7, "Модерн");
         if (storage.createGenre(test).isPresent()) {
