@@ -46,9 +46,9 @@ public class GenreDaoImpl implements GenreDao {
         jdbcTemplate.update(sql, filmId);
     }
 
-    @Override
+   /* @Override
     public Optional<Genre> createGenre(Genre genre) {
-        final String sql = "INSERT INTO  GENRES (NAME) VALUES  (?)  "; //INSERT INTO
+        final String sql = "INSERT INTO  GENRES (GENRE_ID) VALUES  (?)"; //INSERT INTO
         if (jdbcTemplate.update(sql, genre.getName()) != 1) {
             return Optional.empty();
         } else {
@@ -64,7 +64,7 @@ public class GenreDaoImpl implements GenreDao {
         } else {
             return Optional.of(genre);
         }
-    }
+    }*/
 
     private List<Genre> mappingGenre(SqlRowSet rs) {
         List<Genre> genres = new ArrayList<>();

@@ -28,14 +28,14 @@ public class GenreServiceImpl implements GenreService{
         genreDao.deleteAllGenreByFilmId(filmId);
     }
 
-    @Override
+  /*  @Override
     public Optional<Genre> createGenre(Genre genre) {
         return genreDao.createGenre(genre);
     }
 
     @Override
     public Optional<Genre> updateGenre(Genre genre) {
-        return genreDao.updateGenre(genre);
+        return genreDao.updateGenre(genre);*/
     }
 
-}
+
