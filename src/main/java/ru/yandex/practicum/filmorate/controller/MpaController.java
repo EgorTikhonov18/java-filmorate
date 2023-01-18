@@ -29,8 +29,6 @@ public class MpaController {
     public Optional<Mpa> getMpaById(@PathVariable Integer id) throws ErrorHandler {
         if (id < 1) {
             throw new  FilmNotFoundException("Рейтинг с id " + id + " не найден.");
-        } else if (id == 9999){
-            throw new ErrorHandler();
         }
         return mpaServiceImpl.getMpaById(id);
     }
