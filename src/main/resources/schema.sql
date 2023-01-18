@@ -24,7 +24,6 @@ create table IF NOT EXISTS films
     release_date Date,
     duration     VARCHAR(10),
     mpaa_id      int,
-    mpaa_name VARCHAR(255),
     CONSTRAINT fk_mpaa FOREIGN KEY (MPAA_id) REFERENCES MPAA(MPAA_ID) ON DELETE CASCADE ON UPDATE CASCADE
     );
 
