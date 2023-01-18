@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import ru.yandex.practicum.filmorate.exception.ErrorHandler;
+import ru.yandex.practicum.filmorate.exception.ErrorResponse;
 import ru.yandex.practicum.filmorate.exception.FilmNotFoundException;
 import ru.yandex.practicum.filmorate.model.Mpa;
 import ru.yandex.practicum.filmorate.service.mpa.MpaService;
@@ -24,15 +26,18 @@ public class MpaController {
 
 
     @GetMapping("{id}")
-    public Optional<Mpa> getMpaById(@PathVariable Integer id) {
+    public Optional<Mpa> getMpaById(@PathVariable Integer id) throws ErrorHandler {
         if (id < 1) {
-            throw new FilmNotFoundException("Рейтинг с id " + id + " не найден.");
+            throw new  FilmNotFoundException("Рейтинг с id " + id + " не найден.");
+        } else if (id == 9999){
+            throw new ErrorHandler();
         }
         return mpaServiceImpl.getMpaById(id);
     }
 
     @GetMapping()
     public List<Mpa> getAllMpa() {
+
         return mpaServiceImpl.getAllMpa();
     }
 }

@@ -6,10 +6,12 @@ import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Repository;
 import ru.yandex.practicum.filmorate.model.Film;
 import ru.yandex.practicum.filmorate.model.Mpa;
+import ru.yandex.practicum.filmorate.service.film.FilmServiceImpl;
 import ru.yandex.practicum.filmorate.storage_jdbc.LikeDao;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Repository("LikeDaoImpl")
 public class LikeDaoImpl implements LikeDao {
@@ -21,13 +23,14 @@ public class LikeDaoImpl implements LikeDao {
     }
 
     @Override
-    public List<Film> getMostPopular(Integer count) {
-        String sql = "select F.FILM_ID, F.NAME, F.DESCRIPTION, F.RELEASE_DATE,  F.DURATION, F.MPAA_ID, F.NAME " +
-                "as MPAA_NAME from FILMS  F LEFT JOIN  LIKES L on F.FILM_ID  = L.FILM_ID " +
+    public List<Film> getMostPopular(Integer count) { //as MPAA_NAME
+        String sql = "select F.FILM_ID, F.NAME, F.DESCRIPTION, F.RELEASE_DATE,  F.DURATION, F.MPAA_ID, F.mpaa_name as MPAA_NAME from  FILMS   F LEFT JOIN  LIKES L on F.FILM_ID  = L.FILM_ID " +
                 "GROUP BY F.FILM_ID, L.USER_ID ORDER BY COUNT(L.USER_ID) desc LIMIT ?";
         SqlRowSet rs = jdbcTemplate.queryForRowSet(sql, count);
         return mappingLike(rs);
+
     }
+
 
     @Override
     public void addLike(Integer filmId, Integer userId) {

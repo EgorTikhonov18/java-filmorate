@@ -10,7 +10,7 @@ import javax.validation.ConstraintViolationException;
 
 @Slf4j
 @RestControllerAdvice
-public class ErrorHandler {
+public class ErrorHandler extends Throwable {
 
 
     @ExceptionHandler

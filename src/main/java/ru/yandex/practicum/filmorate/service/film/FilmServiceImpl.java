@@ -29,7 +29,7 @@ public class FilmServiceImpl implements FilmService {
     private final FilmGenreDao filmGenreStorage;
 
     @Override
-    public List<Film> getAllFilms() {
+    public   List<Film> getAllFilms() {
         log.debug("Получен запрос GET /films.");
         List<Film> films = new ArrayList<>();
         for(Film film:storage.getAllFilms()){

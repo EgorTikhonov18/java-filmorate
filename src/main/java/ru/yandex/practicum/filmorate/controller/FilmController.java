@@ -10,6 +10,7 @@ import ru.yandex.practicum.filmorate.model.Film;
 import ru.yandex.practicum.filmorate.service.film.FilmService;
 
 import javax.validation.Valid;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 import java.time.LocalDate;
@@ -22,6 +23,7 @@ import java.util.List;
 @RequestMapping("/films")
 public class FilmController {
 
+    @NotNull
     private final FilmService service;
 
     @GetMapping
@@ -57,7 +59,7 @@ public class FilmController {
     }
 
     @GetMapping("/popular")
-    public List<Film> getMostPopular(@Positive @RequestParam(defaultValue = "10") Integer count) {
+    public List<Film> getMostPopular(@Positive  @RequestParam(defaultValue = "10") Integer count) {
         return service.getMostPopular(count);
     }
 
