@@ -41,9 +41,6 @@ public class GenreDaoTest {
     @Test
     public void createGenreTest() {
         Genre test = new Genre(7, "Модерн");
-        /*if (storage.createGenre(test).isPresent()) {
-            storage.createGenre(test);
-        }*/
         if (storage.getGenreById(7).isPresent()) {
             assertEquals(storage.getGenreById(7).get(),test);
         }
@@ -51,9 +48,6 @@ public class GenreDaoTest {
     @Test
     public void updateGenreTest() {
         Genre test = new Genre(7, "Супер-Модерн");
-        /*if (storage.createGenre(test).isPresent()) {
-            storage.updateGenre(test);
-        }*/
         if (storage.getGenreById(7).isPresent()) {
             assertEquals(storage.getGenreById(7).get().getName(), "Супер-Модерн");
         }

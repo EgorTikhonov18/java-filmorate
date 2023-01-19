@@ -6,12 +6,10 @@ import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Repository;
 import ru.yandex.practicum.filmorate.model.Film;
 import ru.yandex.practicum.filmorate.model.Mpa;
-import ru.yandex.practicum.filmorate.service.film.FilmServiceImpl;
 import ru.yandex.practicum.filmorate.storage_jdbc.LikeDao;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Repository("LikeDaoImpl")
 public class LikeDaoImpl implements LikeDao {
@@ -30,7 +28,6 @@ public class LikeDaoImpl implements LikeDao {
         return mappingLike(rs);
 
     }
-
 
     @Override
     public void addLike(Integer filmId, Integer userId) {

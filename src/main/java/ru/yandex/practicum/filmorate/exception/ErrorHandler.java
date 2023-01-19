@@ -11,10 +11,7 @@ import javax.validation.ConstraintViolationException;
 @Slf4j
 @RestControllerAdvice
 public class ErrorHandler extends Throwable {
-
-
     @ExceptionHandler
-
     @ResponseStatus(HttpStatus.NOT_FOUND) //NOT_FOUND
     public ErrorResponse handle(final FilmNotFoundException  e) {
         return new ErrorResponse(

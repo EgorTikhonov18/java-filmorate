@@ -16,7 +16,6 @@ import java.util.stream.Collectors;
 public class FilmGenreDaoImpl implements FilmGenreDao {
     private final JdbcTemplate jdbcTemplate;
 
-
     @Autowired
     public FilmGenreDaoImpl(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;

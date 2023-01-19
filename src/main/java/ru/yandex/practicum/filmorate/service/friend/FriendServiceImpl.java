@@ -15,7 +15,6 @@ import java.util.List;
 public class FriendServiceImpl implements FriendService{
     private final FriendDao storage;
     private final UserService serviceUser;
-
     @Override
     public void addFriend(Integer id, Integer friendId) {
         serviceUser.getUserById(id);
@@ -23,7 +22,6 @@ public class FriendServiceImpl implements FriendService{
         storage.addFriend(id, friendId);
         log.debug("Пользователь {} добавлен в друзья к {}", friendId, id);
     }
-
     @Override
     public void removeFriend(Integer id, Integer friendId) {
         serviceUser.getUserById(id);

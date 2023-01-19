@@ -9,14 +9,9 @@ import ru.yandex.practicum.filmorate.storage_jdbc.FilmDao;
 import ru.yandex.practicum.filmorate.storage_jdbc.FilmGenreDao;
 import ru.yandex.practicum.filmorate.storage_jdbc.LikeDao;
 import ru.yandex.practicum.filmorate.storage_jdbc.UserDao;
-import ru.yandex.practicum.filmorate.storage_jdbc.FilmGenreDao;
-import ru.yandex.practicum.filmorate.storage_jdbc.FilmDao;
-import ru.yandex.practicum.filmorate.storage_jdbc.LikeDao;
-import ru.yandex.practicum.filmorate.storage_jdbc.UserDao;
 
 import java.util.ArrayList;
 import java.util.List;
-
 
 @Slf4j
 @Service

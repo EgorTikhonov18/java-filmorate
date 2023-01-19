@@ -22,9 +22,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/users")
 public class UserController {
-
     private final UserService service;
-
 
     @GetMapping
     public List<User> gettingAllUsers() {
@@ -47,8 +45,6 @@ public class UserController {
         isValid(user);
         return service.updateUser(user);
     }
-
-
 
     private void isValid(User user) {
         if (user.getName() == null || user.getName().isBlank()) {

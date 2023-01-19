@@ -24,7 +24,6 @@ import java.util.Optional;
 public class MpaController {
     private final MpaService mpaServiceImpl;
 
-
     @GetMapping("{id}")
     public Optional<Mpa> getMpaById(@PathVariable Integer id) throws ErrorHandler {
         if (id < 1) {

@@ -13,8 +13,6 @@ import java.time.LocalDate;
 @NoArgsConstructor
 public class User {
     private Integer id;
-
-
     @NotBlank
     @Email
     @NotEmpty
@@ -29,8 +27,6 @@ public class User {
     @JsonDeserialize(using = LocalDateDeserializer.class)
     @JsonSerialize(using = LocalDateSerializer.class)
     private LocalDate birthday;
-
-
 
     public User(Integer id, String name, String email, String login, LocalDate birthday) {
         this.id = id;

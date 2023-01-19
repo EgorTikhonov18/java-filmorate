@@ -25,8 +25,6 @@ import java.util.Optional;
 @RequestMapping("/genres")
 public class GenreController {
     private final GenreService service;
-
-
     @GetMapping("{id}")
     public Optional<Genre> getGenre(@PathVariable   Integer id) {
         if (id < 1) {
@@ -34,7 +32,6 @@ public class GenreController {
         }
         return service.findGenreById(id);
     }
-
 
     @GetMapping
     public List<Genre> findAll() {

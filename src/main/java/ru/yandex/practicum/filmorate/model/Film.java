@@ -1,17 +1,18 @@
 package ru.yandex.practicum.filmorate.model;
+
 import lombok.Builder;
 import lombok.Data;
+
 import javax.validation.constraints.*;
 import java.time.LocalDate;
 import java.util.*;
 
 @Data
 public class Film {
-
     private Integer id;
     @NotBlank
     private final String name;
-    @Size(min = 0, max = 200)
+    @Size(max = 200)
     @NotBlank
     private final String description;
     @NotNull
@@ -24,7 +25,6 @@ public class Film {
     @NotNull
     private Mpa mpa;
 
-
     @Builder
     public Film(Integer id, String name, String description, LocalDate releaseDate, int duration,
                 Mpa mpa) {
@@ -35,6 +35,4 @@ public class Film {
         this.duration = duration;
         this.mpa = mpa;
     }
-
-
 }

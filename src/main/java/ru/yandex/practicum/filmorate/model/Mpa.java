@@ -2,7 +2,6 @@ package ru.yandex.practicum.filmorate.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import org.springframework.validation.annotation.Validated;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
