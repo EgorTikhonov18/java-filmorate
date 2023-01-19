@@ -1,12 +1,13 @@
 package ru.yandex.practicum.filmorate.controller;
 
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import ru.yandex.practicum.filmorate.exception.ValidationException;
 import ru.yandex.practicum.filmorate.model.Film;
-import ru.yandex.practicum.filmorate.service.film.InMemoryFilmService;
+import ru.yandex.practicum.filmorate.service.film.FilmService;
 
 import javax.validation.Valid;
 import javax.validation.constraints.Positive;
@@ -16,15 +17,11 @@ import java.util.List;
 @RestController
 @Slf4j
 @Validated
+@RequiredArgsConstructor
 @RequestMapping("/films")
 public class FilmController {
 
-    private final InMemoryFilmService service;
-
-   // @Autowired
-    public FilmController(InMemoryFilmService service) {
-        this.service = service;
-    }
+    private final FilmService service;
 
     @GetMapping
     public List<Film> getAllFilms() {
@@ -32,12 +29,12 @@ public class FilmController {
     }
 
     @GetMapping("/{filmId}")
-    public Film getFilmById( @Valid @PathVariable Integer filmId) {
+    public Film getFilmById(@PathVariable Integer filmId) {
         return service.getFilmById(filmId);
     }
 
     @PostMapping
-    public Film createFilm(@Valid @RequestBody Film film) {
+    public Film createFilm(@RequestBody @Valid Film film) {
         isValid(film);
         return service.addFilm(film);
     }
@@ -48,9 +45,9 @@ public class FilmController {
         return service.updateFilm(film);
     }
 
-    @PutMapping("/{id}/like/{userId}")
-    public void addLike (@Valid @PathVariable Integer id, @Valid @PathVariable Integer userId) {
-        service.addLike(id, userId);
+    @PutMapping("/{filmId}/like/{userId}")
+    public void addLike(@PathVariable Integer filmId, @PathVariable Integer userId) {
+        service.addLike(filmId, userId);
     }
 
     @DeleteMapping("/{id}/like/{userId}")
@@ -59,7 +56,7 @@ public class FilmController {
     }
 
     @GetMapping("/popular")
-    public List<Film> getMostPopular(@Positive @RequestParam(defaultValue = "10") Integer count) {
+    public List<Film> getMostPopular(@Positive  @RequestParam(defaultValue = "10") Integer count) {
         return service.getMostPopular(count);
     }
 

@@ -1,52 +1,38 @@
 package ru.yandex.practicum.filmorate.model;
 
+import lombok.Builder;
+import lombok.Data;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
-import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
-import lombok.*;
-import org.hibernate.validator.constraints.NotBlank;
-import org.hibernate.validator.constraints.NotEmpty;
-
-
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Positive;
-import javax.validation.constraints.Size;
+import javax.validation.constraints.*;
 import java.time.LocalDate;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 @Data
 public class Film {
-    private   Set<Integer> likes;
-
     private Integer id;
     @NotBlank
-    private   String name;
+    private final String name;
+    @Size(max = 200)
     @NotBlank
-    @Size(min=0,max = 200)
-    private   String description;
+    private final String description;
     @NotNull
-    private   LocalDate releaseDate;
+    private final LocalDate releaseDate;
     @Min(1)
     @Positive
-    private int duration;
+    private final int duration;
+    private List<Genre> genres = new ArrayList<>();
+    private Integer rate;
+    @NotNull
+    private Mpa mpa;
+
     @Builder
-    public Film( String name, String description, LocalDate releaseDate, int duration) {
+    public Film(Integer id, String name, String description, LocalDate releaseDate, int duration,
+                Mpa mpa) {
+        this.id = id;
         this.name = name;
         this.description = description;
         this.releaseDate = releaseDate;
         this.duration = duration;
-        this.likes = new HashSet<>();
+        this.mpa = mpa;
     }
-    public void addLike(Integer filmId) {
-        likes.add(filmId);
-    }
-    public void remoteLike(Integer userId) {
-        likes.remove(userId);
-    }
-
 }

@@ -1,4 +1,4 @@
-package ru.yandex.practicum.filmorate.storage.film;
+package ru.yandex.practicum.filmorate.storage_jdbc;
 
 import ru.yandex.practicum.filmorate.model.Film;
 
@@ -6,7 +6,8 @@ import ru.yandex.practicum.filmorate.model.Film;
 import java.util.List;
 import java.util.Optional;
 
-public interface FilmStorage {
+public interface FilmDao {
+
  void reset();
 
  List<Film> getAllFilms();
@@ -15,7 +16,7 @@ public interface FilmStorage {
 
  Film addFilm(Film film);
 
- Film updateFilm(Film film);
+ int updateFilm(Film film);
 
- List<Film> getMostPopular(Integer count);
+
 }
