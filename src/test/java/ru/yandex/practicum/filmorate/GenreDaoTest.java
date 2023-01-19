@@ -11,16 +11,6 @@ import ru.yandex.practicum.filmorate.storage_jdbc.impl.GenreDaoImpl;
 import static org.junit.jupiter.api.Assertions.*;
 import java.util.List;
 
-import lombok.RequiredArgsConstructor;
-import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
-import org.springframework.boot.test.context.SpringBootTest;
-import ru.yandex.practicum.filmorate.model.Genre;
-import ru.yandex.practicum.filmorate.storage_jdbc.impl.GenreDaoImpl;
-
-import static org.junit.jupiter.api.Assertions.*;
-import java.util.List;
 
 @SpringBootTest
 @AutoConfigureTestDatabase

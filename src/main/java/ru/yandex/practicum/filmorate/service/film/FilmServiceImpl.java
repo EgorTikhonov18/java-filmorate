@@ -48,6 +48,7 @@ public class FilmServiceImpl implements FilmService {
         Film temp = storage.addFilm(film);
         filmGenreStorage.updateAllGenreByFilm(temp);
         return temp;
+
     }
 
     @Override

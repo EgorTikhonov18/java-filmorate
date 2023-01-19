@@ -1,5 +1,6 @@
 package ru.yandex.practicum.filmorate.storage_jdbc.impl;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
@@ -8,6 +9,7 @@ import org.springframework.stereotype.Repository;
 import ru.yandex.practicum.filmorate.model.Film;
 import ru.yandex.practicum.filmorate.model.Mpa;
 import ru.yandex.practicum.filmorate.storage_jdbc.FilmDao;
+import ru.yandex.practicum.filmorate.storage_jdbc.FilmGenreDao;
 
 import java.sql.Date;
 import java.util.*;
@@ -15,6 +17,7 @@ import java.util.*;
 
 @Repository("FilmDaoImpl")
 public class FilmDaoImpl implements FilmDao {
+
     private final JdbcTemplate jdbcTemplate;
 
     private static final String SELECT_ALL = "select FILMS.FILM_ID, FILMS.NAME, FILMS.DESCRIPTION, FILMS.RELEASE_DATE,"
@@ -73,6 +76,7 @@ public class FilmDaoImpl implements FilmDao {
                 .usingGeneratedKeyColumns("FILM_ID");
 
         film.setId(simpleJdbcInsert.executeAndReturnKey(this.filmToMap(film)).intValue());
+
         return film;
     }
 
@@ -117,5 +121,6 @@ public class FilmDaoImpl implements FilmDao {
         }
         return films;
     }
+
 
 }
